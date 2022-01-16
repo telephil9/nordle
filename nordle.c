@@ -49,6 +49,7 @@ char lines[5][6];
 int tried[26];
 int done;
 int won;
+int stats[2] = {0};
 
 int
 validword(char *w)
@@ -150,7 +151,7 @@ showmessage(char *message)
 	int w;
 
 	p = screen->r.min;
-	p.y += Padding + kfont->height;
+	p.y += Padding + 1.5*kfont->height;
 	w = stringwidth(kfont, message);
 	p.x += (Dx(screen->r) - w) / 2;
 	string(screen, p, cols[WPOS], ZP, kfont, message);
@@ -166,9 +167,11 @@ redraw(void)
 	char m[255], s[2] = {0};
 
 	draw(screen, screen->r, cols[BACK], nil, ZP);
+	snprint(m, sizeof m, "%d/%d games won", stats[0], stats[1]);
+	string(screen, addpt(screen->r.min, Pt(Padding, Padding)), cols[BORD], ZP, font, m);
 	if(done){
 		p = screen->r.min;
-		p.y += Padding + kfont->height;
+		p.y += Padding + 1.5*kfont->height;
 		if(won){
 			snprint(m, sizeof m, "congratulations");
 			c = RPOS;
@@ -277,9 +280,12 @@ ekeyboard(Rune k)
 			++lnum;
 			lcount = -1;
 			if(foundword()){
+				stats[1]++;
+				stats[0]++;
 				done = 1;
 				won = 1;
 			}else if(lnum == 6){
+				stats[1]++;
 				done = 1;
 				won = 0;
 			}
