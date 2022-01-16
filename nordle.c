@@ -205,7 +205,7 @@ redraw(void)
 		if(tried[i] == 0)
 			continue;
 		c = tried[i] == 1 ? NONE : RPOS;
-		s[0] = toupper(i + 'a');
+		s[0] = 'A' + i;
 		p = stringnbg(screen, p, cols[TEXT], ZP, kfont, s, 1, cols[c], ZP);
 		p.x += 4;
 		j += 1;
@@ -247,8 +247,13 @@ ekeyboard(Rune k)
 
 	if(k == Kdel)
 		threadexitsall(nil);
-	if(done)
+	if(done){
+		if(k == '\n'){
+			newgame();
+			redraw();
+		}
 		return;
+	}
 	if(lcount < 4 && 'a' <= k && k <= 'z'){
 		lines[++lcount][lnum] = (char)k;
 		redraw();
