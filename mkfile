@@ -1,6 +1,6 @@
 </$objtype/mkfile
 
-BIN=/$objtype/bin/games/
+BIN=/$objtype/bin/games
 TARG=nordle
 OFILES=nordle.$O
 
