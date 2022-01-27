@@ -386,6 +386,7 @@ threadmain(int argc, char *argv[])
 		case Eresize:
 			if(getwindow(display, Refnone) < 0)
 				sysfatal("getwindow: %r");
+			initsize();
 			eresize();
 			break;
 		case Ekeyboard:
